@@ -1,0 +1,5 @@
+{
+    "title": "Rusty CLI Book",
+    "author": "Kevin K. <kbknapp@gmail.com>",
+    "description": "Covers how to build reusable, maintainable CLIs in Rust",
+}
