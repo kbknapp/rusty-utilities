@@ -1,5 +1,5 @@
 {
-    "title": "Rusty CLI Book",
+    "title": "Rusty Utilities",
     "author": "Kevin K. <kbknapp@gmail.com>",
-    "description": "Covers how to build reusable, maintainable CLIs in Rust",
+    "description": "Covers how to build [re]usable, maintainable CLIs in Rust",
 }

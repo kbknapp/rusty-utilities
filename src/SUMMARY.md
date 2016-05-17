@@ -12,6 +12,8 @@
     - [Argument Parsing](./01_basics/07_arg_parse.md)
     - [Combinations](./01_basics/08_combo.md)
 - [The Basics](./02_real_basics/00_real_basics.md)
+    - [Preface](./02_real_basics/01_the_start.md)
+    - [Flags](./02_real_basics/02_flags.md)
 -------
 [Contributors](./03_contributors.md)
 [License](./04_LICENSE.md)
