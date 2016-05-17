@@ -47,7 +47,7 @@
         </script>
 
         <div id="sidebar" class="sidebar">
-            <ul class="chapter"><li class="affix"><a href="./01_about.html">About this book</a></li><li class="affix"><a href="./02_introduction.html">Introduction</a></li><li><a href="./01_basics/00_basics.html"><strong>1.</strong> Before the Basics</a></li><li><ul class="section"><li><a href="./01_basics/01_what_is_cli.html"><strong>1.1.</strong> What is a CLI?</a></li><li><a href="./01_basics/02_story_of_wc.html"><strong>1.2.</strong> The Story of wc</a></li><li><a href="./01_basics/03_lessons_learned.html"><strong>1.3.</strong> Lessons Learned</a></li><li><a href="./01_basics/04_env_vars.html"><strong>1.4.</strong> Environmental Variables</a></li><li><a href="./01_basics/05_asking.html"><strong>1.5.</strong> Asking and Prompting</a></li><li><a href="./01_basics/06_configs.html"><strong>1.6.</strong> Configuration Files</a></li><li><a href="./01_basics/07_arg_parse.html"><strong>1.7.</strong> Argument Parsing</a></li><li><a href="./01_basics/08_combo.html"><strong>1.8.</strong> Combinations</a></li></ul></li><li><a href="./02_real_basics/00_real_basics.html"><strong>2.</strong> The Basics</a></li><li class="spacer"></li><li class="affix"><a href="./03_contributors.html">Contributors</a></li><li class="affix"><a href="./04_LICENSE.html">License</a></li></ul>
+            <ul class="chapter"><li class="affix"><a href="./01_about.html">About this book</a></li><li class="affix"><a href="./02_introduction.html">Introduction</a></li><li><a href="./01_basics/00_basics.html"><strong>1.</strong> Before the Basics</a></li><li><ul class="section"><li><a href="./01_basics/01_what_is_cli.html"><strong>1.1.</strong> What is a CLI?</a></li><li><a href="./01_basics/02_story_of_wc.html"><strong>1.2.</strong> The Story of wc</a></li><li><a href="./01_basics/03_lessons_learned.html"><strong>1.3.</strong> Lessons Learned</a></li><li><a href="./01_basics/04_env_vars.html"><strong>1.4.</strong> Environmental Variables</a></li><li><a href="./01_basics/05_asking.html"><strong>1.5.</strong> Asking and Prompting</a></li><li><a href="./01_basics/06_configs.html"><strong>1.6.</strong> Configuration Files</a></li><li><a href="./01_basics/07_arg_parse.html"><strong>1.7.</strong> Argument Parsing</a></li><li><a href="./01_basics/08_combo.html"><strong>1.8.</strong> Combinations</a></li></ul></li><li><a href="./02_real_basics/00_real_basics.html"><strong>2.</strong> The Basics</a></li><li><ul class="section"><li><a href="./02_real_basics/01_the_start.html"><strong>2.1.</strong> Preface</a></li><li><a href="./02_real_basics/02_flags.html"><strong>2.2.</strong> Flags</a></li><li class="spacer"></li></ul></li><li><a href="./03_contributors.html">Contributors</a></li><li class="affix"><a href="./04_LICENSE.html">License</a></li></ul>
         </div>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -181,6 +181,149 @@ File to count?: evil.txt
 <p>Of course, there are many more things to consider when building a CLI, but for now these are the four main tools of the trade. Interestingly, like the carpenter's tools, each of these may be able to do the job of some of the others to varying degrees of success. Here's is where I hope to teach you to drive nails with a hammer, and cut lumber with a saw.</p>
 <h2>Disclaimer</h2>
 <p>Even if you're familiar with the above terms, I'd recommend at least skimming this chapter. Like the lonely carpenter above, you may not realize you're using a drill to dig a hole...or better yet, perhaps you'll notice and inform me where I'm using circular saw to mow the lawn. ;)</p>
+<h1>Tools of the trade</h1>
+<p>One last aside before we get to the tools, I promise. This one is short, but needs to be said.</p>
+<p>Let's first think about why these tools exist, and what it is we're trying to accomplish by using them. If you said, they exist to communicate with the program, then you're correct. Also, some may say that using these tools is a way to pass data to a program. Both are true.</p>
+<p>All of these tools, be it flags, options, sub-commands, etc. they're all in order to pass data and communicate to the program. Sounds simple, no? The difficult part is how to use these tools in order to be efficient, and intuitive about passing the data to the program. We don't want to cause unnecessary strain on the user, or increased mental load simply because our interface wasn't well designed or well thought out.</p>
+<p>Throughout the next few pages we'll see some common pitfalls, and how to best utilize these tools in order to pass data in the most efficient manner possible.</p>
+<p>Try and keep this in the back of your mind while designing any CLI, or while reading through this chapter, &quot;What do I want to know from the user, and how can they best tell me?&quot;</p>
+<h2>Conventions</h2>
+<p>It should go without saying, but just to cover all the bases and not to insult anyone's intelligence when speaking about these tools and arguments in general, I mean all those words, symbols, and characters typed after the program name at the command line. Such as</p>
+<pre><code>$ program --foo bar baz -QuX
+</code></pre>
+<p>Here, the dollar sign (<code>$</code>) simply denotes a user's terminal prompt, the program is called <code>program</code> and all the arguments are <code>--foo bar baz -QuX</code>. Throughout the next few pages, and even the rest of the book, the very first word to follow the dollar sign is the program name, unless I denote otherwise.</p>
+<h1>Flags</h1>
+<p>We'll start with the simplest form of argument, the <em>flag</em>. In argument parsing parlance, the flag is a boolean. It's either present, or it's not. Flags typically start with either a single, or double <em>hyphen</em> character (<code>-</code>, or <code>--</code> respectively) and are followed by one or more characters. The hyphen is often called a <em>tac</em> or <em>dash</em> as well.</p>
+<p>Some example flags are:</p>
+<pre><code>-a
+-Z
+--flag
+-flag
+</code></pre>
+<p>Here we have four flags, <code>-a</code>, <code>-Z</code>, <code>--flag</code>, and <code>-flag</code> taking up the four most common forms a flag can take. We'll take a look at the different forms shortly.</p>
+<p>Remember talking about, &quot;What data is the user trying to pass?&quot; Well when it comes to flags, they're quite simple. The only data that it passes to the program is it's presence, or lack there of.</p>
+<p>Actually, that's not <em>quite</em> true. There is another form of data a flag can pass to the program. Can you guess what it is? It's the number of occurrences. Some flags can be present multiple times, which can relay to the program a little bit more information than simply being present or not. We'll speak about this in a bit.</p>
+<p>First, let's take a look at the different forms of flags.</p>
+<h2>Short Form</h2>
+<p>An extremely common version of a flag is known as the <em>short form</em>, or <em>short</em> for short (sorry). In this form, a single hyphen is used, followed by a single character, such as the <code>-a</code> or <code>-Z</code> above.</p>
+<p>A good example is the very common convention to use the uppercase <code>V</code> character as the short form in order to tell a program to print it's version number and then exit.</p>
+<p>Try this with <code>rustc</code> to see an example.</p>
+<pre><code>$ rustc -V
+rustc 1.8.0 (db2939409 2016-04-11)
+</code></pre>
+<h3>Short Form Conventions</h3>
+<p>First, prefer lower-case characters to upper case. In most languages, an upper-case character requires an additional key to be pressed.</p>
+<p>Prefer</p>
+<pre><code>$ program -a
+</code></pre>
+<p>To</p>
+<pre><code>$ program -A
+</code></pre>
+<p>There is an exception to this guidance that we'll see in just a minute.</p>
+<p>The second thing to consider, is the language of keyboard your program is most likely to be used with. If your program is region specific to a certain area of the world, where a particular keyboard is common, pick characters that only require a single key press to achieve. If possible, and the language allows, prefer ASCII characters to unicode characters. If the program is not designed to be used in parts of the world with Western Latin character sets (such as English), this point can safely be ignored. If there is a possibility for the program to be used in areas with Western Latin character sets, it's common for the keyboard keyboards to ship with only a limited (if any) unicode support. ASCII is a safe bet.</p>
+<p>Finally, one should acknowledge that there is a relatively small number of possibilities for the short form of a flag. Especially in ASCII only contexts. We'll come back to this note after we talk about the <em>long form</em>.</p>
+<h2>Long Form</h2>
+<p>The <em>long form</em> or <em>long</em> for short (sorry again), is just as common as the short form. The long form typically preceded by two hyphens <code>--</code> and one or more (usually more) characters. <code>--flag</code> was the example given above. The long form is often used because it says a little more about the flag <em>to the user</em>.</p>
+<p>This is a very important note, and the first time we've seen it thus far. While designing a CLI, it's often helpful to think <em>as the user</em> rather than as the program. I can't stress this enough. Seeing that a program should be invoked as, <code>program -e</code> probably doesn't convey much about what that flag is doing. But seeing <code>program --exclude-directories</code> says far more.</p>
+<p>This is why you'll often see the long form used in conjunction with the short form in order to say the same thing, or pass the same data to the program.</p>
+<p>An example would be the convention of using <code>--version</code> to tell a program to print it's version and exit (just like <code>-V</code>). Again, we turn to <code>rustc</code> for the example:</p>
+<pre><code>$ rustc --version
+rustc 1.8.0 (db2939409 2016-04-11)
+</code></pre>
+<p>Notice it does the exact same thing as <code>-V</code>, only as the user <code>--version</code> is far easier to remember than <code>-V</code>...at least at first until you've used it several times. At which point, the short form becomes handy, because it's far quicker to type <code>-V</code> than it is the long form.</p>
+<p>In fact, if we view the help documentation of <code>rustc</code> (which can be accessed by passing another flag <code>--help</code>) we'll actually see the short and long form listed together:</p>
+<pre><code>$ rustc --help
+ # [...]
+    -V --version        Print version info and exit
+ # [...]
+</code></pre>
+<h3>Long Form Conventions</h3>
+<p>It's usually a good idea to use only lower-case characters when thinking of long form flags. Of course, there may be times when it's appropriate to have an upper-case character, but this should be the exception and not the rule.</p>
+<p>It's also possible to have compound, or multiple words in a long form flag, although one must use a character other than a space as the separator. It's convention to use the hyphen character.</p>
+<p>Prefer</p>
+<pre><code>$ program --compound-word
+</code></pre>
+<p>Over</p>
+<pre><code>$ program --compound_word
+</code></pre>
+<p>Long form flags should be as short as possible, but not so short that they lose meaning. The entire point of having a long form is to convey more meaning. Although an arbitrary limit, I try to use no more than three words in a compound long form flag, and only if those words are short, otherwise I'll limit myself to two words.</p>
+<p>When using the long form in conjunction with a short form, although not required, it's a good idea to use the first character of the long form, as the short form. This makes the correlation easier to remember.</p>
+<p>Keep in mind, this isn't always possible because there are times where several long form flags share a common first character.</p>
+<p>For example there is a very common long form flag <code>--verbose</code> on many command line applications. In fact, <code>rustc</code> again uses this convention. If one wanted both <code>--version</code> and <code>--verbose</code> to have a short form, which one should get the <code>-v</code>?!</p>
+<p>In these cases, it's customary to change the case of the short form, not the long form. OK, so now we know there should be <code>-v</code> for one of them,  and <code>-V</code> for the other. But that still doesn't solve which one gets which. This is somewhat subjective, but being that the lower-case form is easier to type, it should go to the flag which has the most potential for use, or the more common case.</p>
+<p>In <code>rustc</code> the authors decided, to which I agree, that <code>--verbose</code> is far more likely to be used, than <code>--version</code>. If we view the help documentation we see that is how they divided up the short forms.</p>
+<pre><code>$ rustc --help
+ # [...]
+    -V --version        Print version info and exit
+    -v --verbose        Use verbose output
+</code></pre>
+<p>Remember way back when I said there was a limited number of short forms a flag could take? If a program has a large number of flags, not every flag needs a short <em>and</em> long form. Not all long forms need to share a character with the short form. In fact, not all flags even need a short form (which is arguably the more limited form).</p>
+<h3>Combining Long and Short Forms</h3>
+<p>Attempt to prioritize common flags, or flags which you believe will be used the most. The prioritization I use is, from most use, to least use:</p>
+<ul>
+<li>Both long and short form, short form has a shared lower-case character</li>
+<li>Both long and short form, short form has a shared upper-case character</li>
+<li>Both long and short form, short form has non-shared lower-case character</li>
+<li>Both long and short form, short form has a non-shared upper-case character</li>
+<li>Long form only</li>
+<li>Short form only, lower-case character</li>
+<li>Short form only, upper-case character</li>
+</ul>
+<p>It's also a good practice to do a little forward thinking and try to reserve short forms for common flags you may not have implemented yet, but intend to. Adding a short form to a later version doesn't break backwards compatibility, but changing or removing a short form of a flag <em>does</em> break it, and can dampen ones reputation in the worst case.</p>
+<h2>Alternate Long Forms</h2>
+<p>There is another version of the long form, which uses a single hyphen followed by two or more characters. In the example <em>all</em> the way the top, <code>-flag</code> was used. This form is far less common today, but still appears from time to time. We won't spend much time talking about this form, and in fact I would recommend avoiding it all together. This is because it's mutually exclusive with the next item on our list, which in my opinion is far more useful and common.</p>
+<h2>Combining Short Forms</h2>
+<p>This is not really a form, but a decently common convention supported by many CLIs. It allows short form flags to be combined with only a single hyphen, instead of having to re-type the hyphen (and a space) with each one. An example would be</p>
+<pre><code>$ program -aZBd
+</code></pre>
+<p>Being the equivalent of</p>
+<pre><code>$ program -a -Z -B -d
+</code></pre>
+<p>While this form may not look super readable, when using many flags it's far nice to type. Especially, consider if each of those flags only had long forms! Yuck. Again, this isn't always supported, but I'd suggest giving it some thought as it can make the end user experience that much nicer. The main thing to consider is that, like stated above, it doesn't work when the alternate long form is desired. Otherwise <code>-flag</code> would be ambiguous as to whether or not it should be parsed as a long or form, or as <code>-f -l -a -g</code>.</p>
+<h2>The Final Bit of info</h2>
+<p>As I said before, there is actually another bit of data flags can pass to the program, vice just their presence and that's the number of times they're used. Some programs allow for a single flag to be used more than once, a common example is the <code>--verbose</code> or <code>-v</code> flag of many programs. In the case of <code>--verbose</code>, it usually means, &quot;The more times it's passed, the more verbose the output gets.&quot; i.e.</p>
+<pre><code>$ program --verbose
+</code></pre>
+<p>Means &quot;verbose output&quot;, whereas</p>
+<pre><code>$ program --verbose --verbose
+</code></pre>
+<p>Means &quot;very verbose output&quot; and so on, and so forth.</p>
+<p>Notice typing the long form multiple times isn't super pleasant. Here using the short form is far easier</p>
+<pre><code>$ program -v -v
+</code></pre>
+<p>Or the even nicer</p>
+<pre><code>$ program -vv
+</code></pre>
+<p>Which would you rather type?</p>
+<h2>What Are You Trying to Say?!</h2>
+<p>The final thing to consider with flags is what information you're trying to get from the user. Should the flag be the user telling the program a special case is present, a special case is <em>not</em> present, or do a particular task?</p>
+<p>Unfortunately there isn't a standard answer for this. The best thing I can say, is to simply put a lot of thought into whether you want the flag to be <em>positive</em> or <em>negative</em>.</p>
+<p>A <em>positive</em> flag tells the program of a particular task, or condition. Whereas a <em>negative</em> flag tells the program of the <em>lack</em> of a particular task or condition.</p>
+<p>Usually, although not always, positive flags are good for common case scenarios, and negative flags are good for exception case scenarios.</p>
+<h2>Practical Examples</h2>
+<p>Of course, this all sounds quite abstract. Imagine we were building <code>wc</code>, except let's call it <code>rwc</code> since we're talking about Rust. Keep in mind I'm demonstrating examples, and these may not be good uses of flags for <code>rwc</code>, but they'll get the point across :)</p>
+<p>A use of a positive flag could be for the type of count to be performed, bytes, lines, or words. Imagine a help documentation for <code>rwc</code> that looked like,</p>
+<pre><code>$ rwc --help
+ # [...]
+    -b, --bytes    print the number of bytes
+    -w, --words    print the number of words
+    -l, --lines    print the number of lines
+</code></pre>
+<p>Usage of <code>rwc</code> could look like,</p>
+<pre><code>$ rwc evil.txt --lines
+ 4 evil.txt
+$ rwc evil.txt --words -b
+ 26 221 evil.txt
+$ rwc evil.txt -lwb
+ 4 26 221 evil.txt
+</code></pre>
+<p>A use of negative flags could be to tell <code>rwc</code> <em>not</em> to print the file name</p>
+<pre><code>$ rwc --help
+ # [...]
+    --no-print-file
+$ rwc -lwb --no-print-file evil.txt
+ 4 26 221
+</code></pre>
 <h1>Contributors</h1>
 <ul>
 <li><a href="https://github.com/kbknapp">Kevin K.</a> &lt;<a href="mailto:kbknapp@gmail.com">kbknapp@gmail.com</a>&gt;</li>
