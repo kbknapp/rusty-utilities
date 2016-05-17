@@ -13,7 +13,23 @@
     - [Combinations](./01_basics/08_combo.md)
 - [The Basics](./02_real_basics/00_real_basics.md)
     - [Preface](./02_real_basics/01_the_start.md)
-    - [Flags](./02_real_basics/02_flags.md)
+    - [Flags](./02_real_basics/01_flags/00_flags.md)
+		- [Short Form](./02_real_basics/01_flags/01_short_form.md)
+		- [Long Form](./02_real_basics/01_flags/02_long_form.md)
+		- [Alt. Long Form](./02_real_basics/01_flags/03_alt_long_form.md)
+		- [Combinations](./02_real_basics/01_flags/04_combinations.md)
+		- [Not Just a Bool](./02_real_basics/01_flags/05_more_than_bool.md)
+		- [Say What?](./02_real_basics/01_flags/06_communication.md)
+		- [Practical Examples](./02_real_basics/01_flags/07_practicals.md)
+    - [Positional / Free Args](./02_real_basics/02_flags.md)
+    - [Options](./02_real_basics/02_flags.md)
+    - [Sub-Commands](./02_real_basics/02_flags.md)
+    - [Requirements](./02_real_basics/02_flags.md)
+    - [Conflicts](./02_real_basics/02_flags.md)
+- [Using clap](./03_using_clap/00_using_clap.md)
+
+
+
 -------
 [Contributors](./03_contributors.md)
 [License](./04_LICENSE.md)

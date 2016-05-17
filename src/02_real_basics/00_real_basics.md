@@ -6,12 +6,14 @@ Imagine a carpenter was learning to build a house, but instead of being told how
 
 In this chapter, I hope to give a little bit of direction about the fundamental tools of the argument parsing profession, so to speak. Luckily for us there aren't *that* many tools, in fact there's only four primary ones that we need to cover before we start really implementing these things.
 
-In no particular order, the things we'll cover are:
+The things we'll cover are:
 
  * Flags
- * Options
  * Positional (or *free*) arguments
+ * Options
  * Sub-commands
+ * Requirements
+ * Conflicts
 
  Of course, there are many more things to consider when building a CLI, but for now these are the four main tools of the trade. Interestingly, like the carpenter's tools, each of these may be able to do the job of some of the others to varying degrees of success. Here's is where I hope to teach you to drive nails with a hammer, and cut lumber with a saw.
 
