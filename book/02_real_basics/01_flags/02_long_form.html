@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="../../">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body>
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="./01_about.html">About this book</a></li><li class="affix"><a href="./02_introduction.html">Introduction</a></li><li><a href="./01_basics/00_basics.html"><strong>1.</strong> Before the Basics</a></li><li><ul class="section"><li><a href="./01_basics/01_what_is_cli.html"><strong>1.1.</strong> What is a CLI?</a></li><li><a href="./01_basics/02_story_of_wc.html"><strong>1.2.</strong> The Story of wc</a></li><li><a href="./01_basics/03_lessons_learned.html"><strong>1.3.</strong> Lessons Learned</a></li><li><a href="./01_basics/04_env_vars.html"><strong>1.4.</strong> Environmental Variables</a></li><li><a href="./01_basics/05_asking.html"><strong>1.5.</strong> Asking and Prompting</a></li><li><a href="./01_basics/06_configs.html"><strong>1.6.</strong> Configuration Files</a></li><li><a href="./01_basics/07_arg_parse.html"><strong>1.7.</strong> Argument Parsing</a></li><li><a href="./01_basics/08_combo.html"><strong>1.8.</strong> Combinations</a></li></ul></li><li><a href="./02_real_basics/00_real_basics.html"><strong>2.</strong> The Basics</a></li><li><ul class="section"><li><a href="./02_real_basics/01_the_start.html"><strong>2.1.</strong> Preface</a></li><li><a href="./02_real_basics/01_flags/00_flags.html"><strong>2.2.</strong> Flags</a></li><li><ul class="section"><li><a href="./02_real_basics/01_flags/01_short_form.html"><strong>2.2.1.</strong> Short Form</a></li><li><a href="./02_real_basics/01_flags/02_long_form.html" class="active"><strong>2.2.2.</strong> Long Form</a></li><li><a href="./02_real_basics/01_flags/03_alt_long_form.html"><strong>2.2.3.</strong> Alt. Long Form</a></li><li><a href="./02_real_basics/01_flags/04_combinations.html"><strong>2.2.4.</strong> Combinations</a></li><li><a href="./02_real_basics/01_flags/05_more_than_bool.html"><strong>2.2.5.</strong> Not Just a Bool</a></li><li><a href="./02_real_basics/01_flags/06_communication.html"><strong>2.2.6.</strong> Say What?</a></li><li><a href="./02_real_basics/01_flags/07_practicals.html"><strong>2.2.7.</strong> Practical Examples</a></li></ul></li><li><a href="./02_real_basics/02_flags.html"><strong>2.3.</strong> Positional / Free Args</a></li><li><a href="./02_real_basics/02_flags.html"><strong>2.4.</strong> Options</a></li><li><a href="./02_real_basics/02_flags.html"><strong>2.5.</strong> Sub-Commands</a></li><li><a href="./02_real_basics/02_flags.html"><strong>2.6.</strong> Requirements</a></li><li><a href="./02_real_basics/02_flags.html"><strong>2.7.</strong> Conflicts</a></li></ul></li><li><a href="./03_using_clap/00_using_clap.html"><strong>3.</strong> Using clap</a></li><li class="spacer"></li><li class="affix"><a href="./03_contributors.html">Contributors</a></li><li class="affix"><a href="./04_LICENSE.html">License</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1>Long Form</h1>
+<p>The <em>long form</em> or <em>long</em> for short (sorry again), is just as common as the short form. The long form typically preceded by two hyphens <code>--</code> and one or more (usually more) characters. <code>--flag</code> was the example given above. The long form is often used because it says a little more about the flag <em>to the user</em>.</p>
+<p>This is a very important note, and the first time we've seen it thus far. While designing a CLI, it's often helpful to think <em>as the user</em> rather than as the program. I can't stress this enough. Seeing that a program should be invoked as, <code>program -e</code> probably doesn't convey much about what that flag is doing. But seeing <code>program --exclude-directories</code> says far more.</p>
+<p>This is why you'll often see the long form used in conjunction with the short form in order to say the same thing, or pass the same data to the program.</p>
+<p>An example would be the convention of using <code>--version</code> to tell a program to print it's version and exit (just like <code>-V</code>). Again, we turn to <code>rustc</code> for the example:</p>
+<pre><code>$ rustc --version
+rustc 1.8.0 (db2939409 2016-04-11)
+</code></pre>
+<p>Notice it does the exact same thing as <code>-V</code>, only as the user <code>--version</code> is far easier to remember than <code>-V</code>...at least at first until you've used it several times. At which point, the short form becomes handy, because it's far quicker to type <code>-V</code> than it is the long form.</p>
+<p>In fact, if we view the help documentation of <code>rustc</code> (which can be accessed by passing another flag <code>--help</code>) we'll actually see the short and long form listed together:</p>
+<pre><code>$ rustc --help
+ # [...]
+    -V --version        Print version info and exit
+ # [...]
+</code></pre>
+<h2>Long Form Conventions</h2>
+<p>It's usually a good idea to use only lower-case characters when thinking of long form flags. Of course, there may be times when it's appropriate to have an upper-case character, but this should be the exception and not the rule.</p>
+<p>It's also possible to have compound, or multiple words in a long form flag, although one must use a character other than a space as the separator. It's convention to use the hyphen character.</p>
+<p>Prefer</p>
+<pre><code>$ program --compound-word
+</code></pre>
+<p>Over</p>
+<pre><code>$ program --compound_word
+</code></pre>
+<p>Long form flags should be as short as possible, but not so short that they lose meaning. The entire point of having a long form is to convey more meaning. Although an arbitrary limit, I try to use no more than three words in a compound long form flag, and only if those words are short, otherwise I'll limit myself to two words.</p>
+<p>When using the long form in conjunction with a short form, although not required, it's a good idea to use the first character of the long form, as the short form. This makes the correlation easier to remember.</p>
+<p>Keep in mind, this isn't always possible because there are times where several long form flags share a common first character.</p>
+<p>For example there is a very common long form flag <code>--verbose</code> on many command line applications. In fact, <code>rustc</code> again uses this convention. If one wanted both <code>--version</code> and <code>--verbose</code> to have a short form, which one should get the <code>-v</code>?!</p>
+<p>In these cases, it's customary to change the case of the short form, not the long form. OK, so now we know there should be <code>-v</code> for one of them,  and <code>-V</code> for the other. But that still doesn't solve which one gets which. This is somewhat subjective, but being that the lower-case form is easier to type, it should go to the flag which has the most potential for use, or the more common case.</p>
+<p>In <code>rustc</code> the authors decided, to which I agree, that <code>--verbose</code> is far more likely to be used, than <code>--version</code>. If we view the help documentation we see that is how they divided up the short forms.</p>
+<pre><code>$ rustc --help
+ # [...]
+    -V --version        Print version info and exit
+    -v --verbose        Use verbose output
+</code></pre>
+<p>Remember way back when I said there was a limited number of short forms a flag could take? If a program has a large number of flags, not every flag needs a short <em>and</em> long form. Not all long forms need to share a character with the short form. In fact, not all flags even need a short form (which is arguably the more limited form).</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="./02_real_basics/01_flags/01_short_form.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="./02_real_basics/01_flags/03_alt_long_form.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="./02_real_basics/01_flags/01_short_form.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="./02_real_basics/01_flags/03_alt_long_form.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>
