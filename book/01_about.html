@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body>
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="./01_about.html" class="active">About this book</a></li><li class="affix"><a href="./02_introduction.html">Introduction</a></li><li><a href="./01_basics/00_basics.html"><strong>1.</strong> Before the Basics</a></li><li><ul class="section"><li><a href="./01_basics/01_what_is_cli.html"><strong>1.1.</strong> What is a CLI?</a></li><li><a href="./01_basics/02_story_of_wc.html"><strong>1.2.</strong> The Story of wc</a></li><li><a href="./01_basics/03_lessons_learned.html"><strong>1.3.</strong> Lessons Learned</a></li><li><a href="./01_basics/04_env_vars.html"><strong>1.4.</strong> Environmental Variables</a></li><li><a href="./01_basics/05_asking.html"><strong>1.5.</strong> Asking and Prompting</a></li><li><a href="./01_basics/06_configs.html"><strong>1.6.</strong> Configuration Files</a></li><li><a href="./01_basics/07_arg_parse.html"><strong>1.7.</strong> Argument Parsing</a></li><li><a href="./01_basics/08_combo.html"><strong>1.8.</strong> Combinations</a></li></ul></li><li><a href="./02_real_basics/00_real_basics.html"><strong>2.</strong> The Basics</a></li><li class="spacer"></li><li class="affix"><a href="./03_contributors.html">Contributors</a></li><li class="affix"><a href="./04_LICENSE.html">License</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1>About This Book</h1>
+<p>The purpose of this book is two-fold; first it's to explain how one could go about designing a Command Line Interface (or <em>CLI</em>), and second how to actually implement that design and build the program utilizing <a href="rust">Rust</a>.</p>
+<p>Actually, it's three-fold; by teaching I learn. So there is actually a selfish aspect to this as well, by showing how to do something I also learn where the pain points are, and learn how well I understand, or rather don't, some of these concepts too. I also really enjoy teaching, so this is an outlet for those parts of my brain.</p>
+<h2>Who this book is for</h2>
+<p>This book is designed for those interested in or who have a need to build command line applications or utilities. It is not specifically designed to be an introduction to Rust, although one may learn a thing or two along the way. If an introduction to Rust is needed, the <a href="rust_book">Rust Book</a> is an excellent choice!</p>
+<p>While this book goes into great detail about CLIs, starting from the basics, it generally assumes at least a basic knowledge of the Rust programming language. If one is comfortable with match expressions, modules, structs, enums, and basic Traits there should be very little difficulty along the way.</p>
+<p>We may briefly speak about one of Rust's most notorious features; the dreaded lifetime, and how it can be applicable for and affect our command line programs. If you don't have a firm grasp on lifetimes, don't fear, the points we'll be discussing are quite low on the difficulty chart!</p>
+<h2>Preface</h2>
+<p>Before we begin, let's ensure we're on the same page when it comes to some common terms.</p>
+<h3>CLI (Command Line Interface)</h3>
+<p>I've used this term several times already, and it's destined to appear a few more. The term CLI is formally used to describe the portion of an application with which the user interacts from the command line or terminal. However, it is also often used refer to the program as a whole. This book attempts to be explicitly about whether it's speaking of the interface itself, or the program as a whole. If I mean the program as a whole, I will typically say things such as <em>program</em>, <em>application</em>, or <em>utility</em>.</p>
+<h3>Command Line application</h3>
+<p>When speaking about command line applications, the defining feature is that they are invoked using a terminal emulator or shell prompt. Typically, all further interaction and output is also via the terminal output, files, or other non graphical display. This is not to say that command line applications can't have a graphical component, or that a graphical program can't be invoked or have a command line interface. Throughout this book we are referring to programs with whom all interaction is via the command line, regardless of where other interaction/output make take place in other usage modes.</p>
+<h2>Requirements</h2>
+<p>In order to follow along with the examples in this book, or test one's own ideas, you will need a working Rust installation and an editor. That's it. I'd highly recommend using something like the still-beta-yet-amazing [<code>rustup.rs</code>](rustup) which allows one to have multiple Rust installations on a single computer and change between various versions of the compiler at will.</p>
+<p>All examples in this book were tested using the current stable version of Rust, which as of this writing is <code>rustc 1.8.0 (db2939409 2016-04-11)</code></p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+
+                
+                    <a href="./02_introduction.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+
+            
+                <a href="./02_introduction.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

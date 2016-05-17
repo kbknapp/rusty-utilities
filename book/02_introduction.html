@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body>
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="./01_about.html">About this book</a></li><li class="affix"><a href="./02_introduction.html" class="active">Introduction</a></li><li><a href="./01_basics/00_basics.html"><strong>1.</strong> Before the Basics</a></li><li><ul class="section"><li><a href="./01_basics/01_what_is_cli.html"><strong>1.1.</strong> What is a CLI?</a></li><li><a href="./01_basics/02_story_of_wc.html"><strong>1.2.</strong> The Story of wc</a></li><li><a href="./01_basics/03_lessons_learned.html"><strong>1.3.</strong> Lessons Learned</a></li><li><a href="./01_basics/04_env_vars.html"><strong>1.4.</strong> Environmental Variables</a></li><li><a href="./01_basics/05_asking.html"><strong>1.5.</strong> Asking and Prompting</a></li><li><a href="./01_basics/06_configs.html"><strong>1.6.</strong> Configuration Files</a></li><li><a href="./01_basics/07_arg_parse.html"><strong>1.7.</strong> Argument Parsing</a></li><li><a href="./01_basics/08_combo.html"><strong>1.8.</strong> Combinations</a></li></ul></li><li><a href="./02_real_basics/00_real_basics.html"><strong>2.</strong> The Basics</a></li><li class="spacer"></li><li class="affix"><a href="./03_contributors.html">Contributors</a></li><li class="affix"><a href="./04_LICENSE.html">License</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1>Introduction</h1>
+<p>Why write about building CLIs in Rust? Why use Rust to write a CLI? These are all questions one may be asking. And they're all great questions. Let me start with 'Why CLIs?' and then I'll move into the 'Why Rust?'</p>
+<h2>Why Write about CLIs?</h2>
+<p>First and foremost, command line programs in general fascinate me. Granted, I hardly ever remember how to invoke their magic without some quick Googling or trial-and-error, but that's an aside. The fact that a single program could appear amazing simple and succinct, and then with a little digging be found to have such broad depth is amazing to me.</p>
+<p>I also love the philosophy of combing small utilities for an even greater outcome. This can be difficult or impossible to do with Graphic User Interfaces (GUIs). Chaining operations between these various small utilities, all with a seemingly endless learning curve and near infinite possibilities makes my jaw drop.</p>
+<p>Finally, my day job revolves around these little programs. Often times I can write a small utility to complete an otherwise mundane, or error prone task seamlessly. These little utilities can then often be placed into other scripts to combined in amazing ways.</p>
+<p>This still doesn't answer why I'm writing about them. The answer is because there are some very (to me) important aspects that should be considered when designing a CLI, which is arguably the most, or one of the most critical pieces of your program. It's the part that users actually interact with. It's often the lasting feeling or memory about a particular program. A great program can be ruined by a poorly designed CLI, likewise a mediocre program may be utilized far more frequently simply because the interface is more appealing or well designed.</p>
+<p>In this book I'm hoping to pass along a few of the idiosyncrasy I've learned while building and studying these interfaces. I'm not claiming to be an expert in either Rust or CLI design, rather far from it; I'm simply a man hoping to pass on a few tips and tricks to make building CLIs more enjoyable.</p>
+<h2>Why Rust?</h2>
+<p>Although it's poor form to make assumptions, I will however assume that you're already at least mildly familiar with Rust and it's various benefits. But that also means you may be familiar with some of Rust's detractions as well. Some of these detractions may seem like they'd be directly at odds with aspects of building a command line application. Namely, things like lifetimes, and string manipulation are extremely common encounters while building command line utilities, yet strings in particular are arguably a little more difficult to work with in Rust, vice certain other languages.</p>
+<p>After having built and dealt with multiple CLIs in Rust and various other languages I can unequivocally say that I prefer using Rust for building these applications. The benefits of Rust, it's speed, safety, ecosystem, and expressiveness far outweigh any detractions one might encounter while dealing with things like strings. Add to that, those problems with strings exist in other languages as well, they're just hidden from you until they pop out and ruin your lunch. Rust has the benefit of at least making their presence known, so that you can deal with it up front and center.</p>
+<p>There are also various CLI libraries designed for Rust, that are in my opinion some of the best in any language. In fact, I miss their features sorely while building command line utilities in other languages.</p>
+<p>Throughout this book I'll be demonstrating one of those libraries, [<code>clap</code>](clap). Full disclosure, I'm the primary developer behind clap, and it's the library that I'm most familiar with. I also believe it's one of the more powerful libraries in the Rust ecosystem for this purpose. Having said that, all principals demonstrated in this book can be implemented in other command line libraries as well. Two vary notable libraries that I'd highly recommend looking into if clap isn't to your liking are [<code>docopt</code>](docopt) and [<code>getopts</code>](getopts)</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="./01_about.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="./01_basics/00_basics.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="./01_about.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="./01_basics/00_basics.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

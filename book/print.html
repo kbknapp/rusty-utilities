@@ -1,0 +1,219 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body>
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="./01_about.html">About this book</a></li><li class="affix"><a href="./02_introduction.html">Introduction</a></li><li><a href="./01_basics/00_basics.html"><strong>1.</strong> Before the Basics</a></li><li><ul class="section"><li><a href="./01_basics/01_what_is_cli.html"><strong>1.1.</strong> What is a CLI?</a></li><li><a href="./01_basics/02_story_of_wc.html"><strong>1.2.</strong> The Story of wc</a></li><li><a href="./01_basics/03_lessons_learned.html"><strong>1.3.</strong> Lessons Learned</a></li><li><a href="./01_basics/04_env_vars.html"><strong>1.4.</strong> Environmental Variables</a></li><li><a href="./01_basics/05_asking.html"><strong>1.5.</strong> Asking and Prompting</a></li><li><a href="./01_basics/06_configs.html"><strong>1.6.</strong> Configuration Files</a></li><li><a href="./01_basics/07_arg_parse.html"><strong>1.7.</strong> Argument Parsing</a></li><li><a href="./01_basics/08_combo.html"><strong>1.8.</strong> Combinations</a></li></ul></li><li><a href="./02_real_basics/00_real_basics.html"><strong>2.</strong> The Basics</a></li><li class="spacer"></li><li class="affix"><a href="./03_contributors.html">Contributors</a></li><li class="affix"><a href="./04_LICENSE.html">License</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1>About This Book</h1>
+<p>The purpose of this book is two-fold; first it's to explain how one could go about designing a Command Line Interface (or <em>CLI</em>), and second how to actually implement that design and build the program utilizing <a href="rust">Rust</a>.</p>
+<p>Actually, it's three-fold; by teaching I learn. So there is actually a selfish aspect to this as well, by showing how to do something I also learn where the pain points are, and learn how well I understand, or rather don't, some of these concepts too. I also really enjoy teaching, so this is an outlet for those parts of my brain.</p>
+<h2>Who this book is for</h2>
+<p>This book is designed for those interested in or who have a need to build command line applications or utilities. It is not specifically designed to be an introduction to Rust, although one may learn a thing or two along the way. If an introduction to Rust is needed, the <a href="rust_book">Rust Book</a> is an excellent choice!</p>
+<p>While this book goes into great detail about CLIs, starting from the basics, it generally assumes at least a basic knowledge of the Rust programming language. If one is comfortable with match expressions, modules, structs, enums, and basic Traits there should be very little difficulty along the way.</p>
+<p>We may briefly speak about one of Rust's most notorious features; the dreaded lifetime, and how it can be applicable for and affect our command line programs. If you don't have a firm grasp on lifetimes, don't fear, the points we'll be discussing are quite low on the difficulty chart!</p>
+<h2>Preface</h2>
+<p>Before we begin, let's ensure we're on the same page when it comes to some common terms.</p>
+<h3>CLI (Command Line Interface)</h3>
+<p>I've used this term several times already, and it's destined to appear a few more. The term CLI is formally used to describe the portion of an application with which the user interacts from the command line or terminal. However, it is also often used refer to the program as a whole. This book attempts to be explicitly about whether it's speaking of the interface itself, or the program as a whole. If I mean the program as a whole, I will typically say things such as <em>program</em>, <em>application</em>, or <em>utility</em>.</p>
+<h3>Command Line application</h3>
+<p>When speaking about command line applications, the defining feature is that they are invoked using a terminal emulator or shell prompt. Typically, all further interaction and output is also via the terminal output, files, or other non graphical display. This is not to say that command line applications can't have a graphical component, or that a graphical program can't be invoked or have a command line interface. Throughout this book we are referring to programs with whom all interaction is via the command line, regardless of where other interaction/output make take place in other usage modes.</p>
+<h2>Requirements</h2>
+<p>In order to follow along with the examples in this book, or test one's own ideas, you will need a working Rust installation and an editor. That's it. I'd highly recommend using something like the still-beta-yet-amazing [<code>rustup.rs</code>](rustup) which allows one to have multiple Rust installations on a single computer and change between various versions of the compiler at will.</p>
+<p>All examples in this book were tested using the current stable version of Rust, which as of this writing is <code>rustc 1.8.0 (db2939409 2016-04-11)</code></p>
+<h1>Introduction</h1>
+<p>Why write about building CLIs in Rust? Why use Rust to write a CLI? These are all questions one may be asking. And they're all great questions. Let me start with 'Why CLIs?' and then I'll move into the 'Why Rust?'</p>
+<h2>Why Write about CLIs?</h2>
+<p>First and foremost, command line programs in general fascinate me. Granted, I hardly ever remember how to invoke their magic without some quick Googling or trial-and-error, but that's an aside. The fact that a single program could appear amazing simple and succinct, and then with a little digging be found to have such broad depth is amazing to me.</p>
+<p>I also love the philosophy of combing small utilities for an even greater outcome. This can be difficult or impossible to do with Graphic User Interfaces (GUIs). Chaining operations between these various small utilities, all with a seemingly endless learning curve and near infinite possibilities makes my jaw drop.</p>
+<p>Finally, my day job revolves around these little programs. Often times I can write a small utility to complete an otherwise mundane, or error prone task seamlessly. These little utilities can then often be placed into other scripts to combined in amazing ways.</p>
+<p>This still doesn't answer why I'm writing about them. The answer is because there are some very (to me) important aspects that should be considered when designing a CLI, which is arguably the most, or one of the most critical pieces of your program. It's the part that users actually interact with. It's often the lasting feeling or memory about a particular program. A great program can be ruined by a poorly designed CLI, likewise a mediocre program may be utilized far more frequently simply because the interface is more appealing or well designed.</p>
+<p>In this book I'm hoping to pass along a few of the idiosyncrasy I've learned while building and studying these interfaces. I'm not claiming to be an expert in either Rust or CLI design, rather far from it; I'm simply a man hoping to pass on a few tips and tricks to make building CLIs more enjoyable.</p>
+<h2>Why Rust?</h2>
+<p>Although it's poor form to make assumptions, I will however assume that you're already at least mildly familiar with Rust and it's various benefits. But that also means you may be familiar with some of Rust's detractions as well. Some of these detractions may seem like they'd be directly at odds with aspects of building a command line application. Namely, things like lifetimes, and string manipulation are extremely common encounters while building command line utilities, yet strings in particular are arguably a little more difficult to work with in Rust, vice certain other languages.</p>
+<p>After having built and dealt with multiple CLIs in Rust and various other languages I can unequivocally say that I prefer using Rust for building these applications. The benefits of Rust, it's speed, safety, ecosystem, and expressiveness far outweigh any detractions one might encounter while dealing with things like strings. Add to that, those problems with strings exist in other languages as well, they're just hidden from you until they pop out and ruin your lunch. Rust has the benefit of at least making their presence known, so that you can deal with it up front and center.</p>
+<p>There are also various CLI libraries designed for Rust, that are in my opinion some of the best in any language. In fact, I miss their features sorely while building command line utilities in other languages.</p>
+<p>Throughout this book I'll be demonstrating one of those libraries, [<code>clap</code>](clap). Full disclosure, I'm the primary developer behind clap, and it's the library that I'm most familiar with. I also believe it's one of the more powerful libraries in the Rust ecosystem for this purpose. Having said that, all principals demonstrated in this book can be implemented in other command line libraries as well. Two vary notable libraries that I'd highly recommend looking into if clap isn't to your liking are [<code>docopt</code>](docopt) and [<code>getopts</code>](getopts)</p>
+<h1>Before the Basics</h1>
+<p>We'll start slow, with basic topics and features and eventually build into complex scenarios. Throughout this book we'll begin by discussing a topic, then build a demonstration utility to test out it's use.</p>
+<h1>What is a CLI</h1>
+<p>First, let's discuss what a CLI is, and why we should care about it.</p>
+<p>As stated previously, CLI stands for Command Line Interface and is the portion of a program which interacts with the user, or the way in which the user interacts with the program.</p>
+<p>One might ask, why do we need a CLI at all? Can't my program just do what it's supposed to do and exit? It can. But what if you'd like your program to behave in a slightly different way if certain scenarios exist? What if there is information you program must know in order to operate, but doesn't have that information at compile time? These are all problems solved by use of a CLI.</p>
+<p>Let's use a practical example...</p>
+<h1>The story of wc</h1>
+<p>Many have heard of the common utility <code>wc</code>, but few know it's humble beginnings. We know that today <code>wc</code> counts the lines, bytes, or words contained in a file. I assume that when the authors of <code>wc</code> set out to write their program, perhaps it was because they had a particular file in mind which was in desperate need of counting, I'll also imagine this file was called <code>unknown.txt</code>.</p>
+<p>So they set out to write a utility to count the lines, words, and bytes of <code>unknown.txt</code>. Several fortnights passed with missed weekends and birthdays, but it all was worth it in the end. <code>wc</code> was born. Sure enough, the program diligently spit out the number of lines, words, and bytes and all rejoiced.</p>
+<p>I happen to have a historical recount of that initial run. It looked as follows:</p>
+<pre><code>$ wc
+ 6 13 104 unknown.txt
+</code></pre>
+<p>Some time later, there came another file, <code>evil.txt</code> which was in desperate need of counting. The lead developer said, &quot;This is no issue, we'll change the source in a jiffy, re-compile, and that evil file who's count was unknown would be a mystery no more!&quot; Sure enough, after a quick change of the code, the dutiful <code>wc</code> spit out the number of lines in <code>evil.txt</code>.</p>
+<pre><code>$ wc
+ 4 26 221 evil.txt
+</code></pre>
+<p>Again, there was peace in the land. Although, again this peace was short lived.</p>
+<p>The lead developer grew tired of constantly changing the source code, and re-compiling each time she found a new file to count. &quot;There has to be a better way.&quot; She exclaimed in agony.</p>
+<p>After many sleepless afternoons pondering her woes she determined life would be grand again if only little <code>wc</code> could get this vital piece of information at runtime, for there was no way know such things before. The lead developer set forth to her team, the best and brightest asking for ways to obtain this information at runtime.</p>
+<p>It was there, at this very team meeting that command line applications changed forever.</p>
+<p>&quot;Throughout all of our calculations, there appears to be only a handful of methods for getting information at runtime!&quot; one developer proclaimed.</p>
+<p>&quot;From the environment!&quot; Yelled one.</p>
+<p>&quot;Also from a file, or by asking!&quot; Said another with far too much enthusiasm.</p>
+<p>&quot;Ney!&quot; Said the lead developer, &quot;Asking for the file, while seemingly simple, won't allow <code>wc</code> to be included in scripts! Setting an environmental variable for each invocation seems cumbersome. Especially with the lack of namespacing!&quot;</p>
+<p>&quot;And adding information to a file, that must be created, read, and parsed is far too much leg work!&quot; said the overly enthusiastic developer.</p>
+<p>The lead developer was beginning to worry that perhaps there wasn't a solution, that perhaps <code>wc</code> was doomed to a life of re-complilation.</p>
+<p>Then, a small voice in the back began to speak. At first, everyone thought it may have been a television left on in another room. But sure enough, the voice spoke louder, and a young developer stood up, &quot;The answer is argument parsing.&quot;</p>
+<p>&quot;Yes, I've dreamed of such magic.&quot; Said the lead developer, &quot;We will have users tell <code>wc</code> which file to parse while invoking <code>wc</code> itself!&quot;</p>
+<p>Developers large and small, young and old, gathered round to watch this small developer with a shy voice change the source ever so slightly to use this new sorcery. Once the compiler returned the successful binary, all gathered round to watch what had transpired.</p>
+<pre><code>$ wc test.txt
+ 50 78 549 test.txt
+</code></pre>
+<p>The heavens had heard no such joys before! The problem was solved, for now...</p>
+<h1>Back to Reality</h1>
+<p>OK, so that was far too dramatic, and overly silly to be of much use. But we can learn from what's written above. Yes, for most programs to be of much use require a certain amount of information in order to operate correctly. Most often, this is information that can't be known at compile time.</p>
+<p>Therefore the program must acquire said information at runtime in some manner, and like the overly enthusiastic developer above stated, there are only a handful of ways to do this. Each has their own strengths and weaknesses.</p>
+<p>We will gloss over all but argument parsing, as the other methods are fairly straight forward and simple to use. It's argument parsing that can get very complex.</p>
+<p>Keep in mind, that a good command line utility can absolutely take advantage of all methods for obtaining information, and isn't limited to simply once choice.</p>
+<h1>Environmental Variables</h1>
+<p>Using environmental variables is perhaps the easiest. All it requires programatiically is checking for said variable, reading it's value, and done. The tricky part comes in what to do when the value or variable isn't present.</p>
+<p>Also, because there's no namespacing, people tend to use things like, <code>XDG_CURRENT_DESKTOP</code>, but imagine trying to set something like that with every invocation of a utility! It'd be a nightmare. Imagine if <code>wc</code> did this:</p>
+<pre><code>$ WC_FILE_TO_COUNT=evil.txt wc
+ 4 26 221 evil.txt
+</code></pre>
+<p>Environmental variables are best left to information that doesn't change often, needs to be shared between programs, or perhaps is private in some manner. They are also decent for optional settings, which are unlikely to be used, or only in a very specific niche circumstance. Such as something like <code>rustc</code>'s backtrace setting (<code>RUST_BACKTRACE</code>).</p>
+<p>This isn't an all inclusive list by any means, but it's good enough for today. Therefore, let's continue on our merry way!</p>
+<h1>Asking and Prompting</h1>
+<p>Asking for, or prompting for the information is an acceptable way in some circumstances, but can get annoying and tedious for the user <em>very</em> quickly. Also, all input from the user needs to be parsed, and/or sanitized in some manner.</p>
+<p>Back to <code>wc</code> it could look something like:</p>
+<pre><code>$ wc
+File to count?: evil.txt
+ 4 26 221 evil.txt
+</code></pre>
+<p>There are very big drawbacks associated with asking or prompting. First, this is a terrible method when there are multiple pieces of information that are required intermixed with pieces that are optional.</p>
+<p>If you ask for information, especially optional information, ensure your ordering and grouping is correct. There is almost nothing more frustrating than hitting <code>[enter]</code> one too many times, missing a value and having to repeat the entire invocation, including values one has already entered.</p>
+<p>Asking for information also precludes your program from being included in most scripts. Imagine if <code>wc</code> asked for the file, but you wanted to run <code>wc</code> across every file in a directory? That would be terrible.</p>
+<p>There are however times when asking may be an acceptable method. If advanced instructions need to be included between bits of information, or if a program is designed to only be invoked a single time ever (or perhaps with large gaps of time between invocations), or most importantly/commonly if these pieces of information build upon each other where actions must take place between each question, and the answer is derived from the output of the last question.</p>
+<p>Unless the application, or one of it's modes, falls generally into one of those categories there are usually better options than prompting. While prompting may seem more user friendly at first, it quickly gets irritating.</p>
+<h1>Configuration Files</h1>
+<p>Next we reach configuration files, which aren't a bad choice in some instances. And are very common in certain settings. Similar to environmental variables, they should be used in circumstances where the information is fairly static. The downside to configuration files, is that it's typically a decent amount of work to load, and parse these files. Not to mention they must be present, and created in order to be used. Finally, if these files contain sensitive information, they must be protected in some manner.</p>
+<p>Good examples of configuration file use can be found in things like [<code>rustfmt</code>](rustfmt) or [<code>clog</code>](clog) where it would be cumbersome to enter the information from those files at each invocation. Most of the information in those files also doesn't change between invocations.</p>
+<h1>Argument Parsing</h1>
+<p>Finally. This is the subject of this book.</p>
+<p>It's also argument parsing that causes the real trouble. This is where design gets messy, reputations get tarnished, lasting impressions are made, puppies cry, jars of peanut butter getting stolen, etc.</p>
+<p>This is also where perhaps very little thought goes into when designing the program. Perhaps it's because it's not the star of the show, which is natural, when building a program to calculate accumulated unicorn hair trimmings, one is excited about unicorn hair trimming and not about how properly parse arguments.</p>
+<p>Hopefully throughout this book you'll see that by giving some forethought, and not after-thought, to argument parsing in particular you can really come out ahead of the game when it comes to these Rusty Unicorn Hair Trimming Utilities.</p>
+<h1>All for One!</h1>
+<p>Keep in mind, great command line applications may use combinations of all of the above throughout their program.</p>
+<p>It would be entirely possible, and even considered good practice to give users different scenarios where each configuration style is possible. For common, optional, static information perhaps use a configuration file. Yet for some type of private static data, consider an environmental variable, finally, it there is a required yet complex scenario (and being part of script isn't important) you could simply ask for the information.</p>
+<h1>The Basics</h1>
+<p>Before we start getting into the real code we need to first discuss some of the fundamental building blocks of argument parsing. Without these building blocks, we'll be running all willy-nilly like.</p>
+<p>Imagine a carpenter was learning to build a house, but instead of being told how to use the tools of his trade, the senior carpenter just dumped a tool bag on the ground and said, &quot;Go forth and build!&quot; Sure, some houses would get built, but the new carpenter might just end up using a hammer to emplace screws, or a machete to cut the lumber.</p>
+<p>In this chapter, I hope to give a little bit of direction about the fundamental tools of the argument parsing profession, so to speak. Luckily for us there aren't <em>that</em> many tools, in fact there's only four primary ones that we need to cover before we start really implementing these things.</p>
+<p>In no particular order, the things we'll cover are:</p>
+<ul>
+<li>Flags</li>
+<li>Options</li>
+<li>Positional (or <em>free</em>) arguments</li>
+<li>Sub-commands</li>
+</ul>
+<p>Of course, there are many more things to consider when building a CLI, but for now these are the four main tools of the trade. Interestingly, like the carpenter's tools, each of these may be able to do the job of some of the others to varying degrees of success. Here's is where I hope to teach you to drive nails with a hammer, and cut lumber with a saw.</p>
+<h2>Disclaimer</h2>
+<p>Even if you're familiar with the above terms, I'd recommend at least skimming this chapter. Like the lonely carpenter above, you may not realize you're using a drill to dig a hole...or better yet, perhaps you'll notice and inform me where I'm using circular saw to mow the lawn. ;)</p>
+<h1>Contributors</h1>
+<ul>
+<li><a href="https://github.com/kbknapp">Kevin K.</a> &lt;<a href="mailto:kbknapp@gmail.com">kbknapp@gmail.com</a>&gt;</li>
+</ul>
+<p>This book is released under the Creative Commons Attribution-ShareAlike CC BY-SA</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+
+                
+
+            </div>
+
+            
+
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>
