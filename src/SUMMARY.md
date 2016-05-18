@@ -1,5 +1,6 @@
 # Summary
 
+[Cover Page](./00_cover.md)
 [About this book](./01_about.md)
 [Introduction](./02_introduction.md)
 - [Before the Basics](./01_basics/00_basics.md)
